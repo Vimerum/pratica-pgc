@@ -19,4 +19,4 @@ executable jurandir
   default-language:    Haskell2010
   ghc-options:         -O2
   build-depends:       base >= 4.7 && < 5, JuicyPixels, filepath, repa, primitive, split
-  other-modules:       Gaussian, BlackWhite, Edge, Unsharp, Utils
+  other-modules:       Gaussian, Grayscale, Edge, Unsharp, Utils
