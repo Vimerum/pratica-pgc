@@ -1,16 +1,16 @@
-/home/vimerum/Documentos/PGC/praticas/jurandir/src/Utils.hs:
-  hash: 8052b24054a2ec327a3bcdacb3685429f8e0b32c06e904f89a43780050c013e7
-/home/vimerum/Documentos/PGC/praticas/jurandir/src/Gaussian.hs:
-  hash: bab135c7fc757524f6e6f4425736fa16bcdf38aa42b290bf1fc426fc7befd04f
-/home/vimerum/Documentos/PGC/praticas/jurandir/src/BlackWhite.hs:
-  hash: 18fd70a96199397e295ddf403d2f3e51fbdfa631cb0c8133e0329b011670bfc3
-/home/vimerum/Documentos/PGC/praticas/jurandir/src/Edge.hs:
-  hash: 9688d2bf732f9350246de5002b85de8cfcf66e0b9ed2ecfb6a3f31b9cc84378b
-/home/vimerum/Documentos/PGC/praticas/jurandir/README.md:
+/home/vimerum/Documentos/PGC/pratica-pgc/jurandir/jurandir.cabal:
+  hash: 13b43e4133db991d1f6c89d9c54a3092949d8b23c2a95abee17b93d20efdd36e
+/home/vimerum/Documentos/PGC/pratica-pgc/jurandir/src/Gaussian.hs:
+  hash: 9a5a9aec70ed4a99b8964f1776164dbb256fd34b607ca67e45b2771c03fe17f9
+/home/vimerum/Documentos/PGC/pratica-pgc/jurandir/src/Utils.hs:
+  hash: 449da799815e8cad080120e6240f7a5d728e045776acc1da50dd0481f4df836a
+/home/vimerum/Documentos/PGC/pratica-pgc/jurandir/src/Edge.hs:
+  hash: 32a0a964c6c358ea8b8fc0b828764d6752750af7113a3a7334dea13b70f7edbf
+/home/vimerum/Documentos/PGC/pratica-pgc/jurandir/README.md:
   hash: e27915c9da05884bdb3515c5f16fdd476dc8783f9ba857b3b25c91438b0b8f1a
-/home/vimerum/Documentos/PGC/praticas/jurandir/src/Main.hs:
-  hash: e2dbf209d89e6da05abe33e924ed9e40c1e600b1cb6b34e9c3eab5dc0f24cac2
-/home/vimerum/Documentos/PGC/praticas/jurandir/src/Unsharp.hs:
-  hash: 35feb49852d4dad78b4a9fc9d7f511c05a1faf7e90ffb5273c1548d6fb3125e7
-/home/vimerum/Documentos/PGC/praticas/jurandir/jurandir.cabal:
-  hash: 0a0afcc449b62e35000ec0aef2e40e635a3e93d120432f450be93e2e1c6d45fd
+/home/vimerum/Documentos/PGC/pratica-pgc/jurandir/src/Grayscale.hs:
+  hash: 34679d397e246d98731bc339d5770d9766d19891c97c9116d4d89bf13f9e3576
+/home/vimerum/Documentos/PGC/pratica-pgc/jurandir/src/Unsharp.hs:
+  hash: 4d1af95ccac6cd721e367349d0a5698a543fc54a676e8f491ab3c38ae73e8279
+/home/vimerum/Documentos/PGC/pratica-pgc/jurandir/src/Main.hs:
+  hash: 0afe69c825db9c15a5491da6e547c41db0d07430e6f9dd6a20ad6c2907428273

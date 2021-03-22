@@ -29,12 +29,12 @@ version :: Version
 version = Version [0,1,0,0] []
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
 
-bindir     = "/home/vimerum/Documentos/PGC/praticas/jurandir/.stack-work/install/x86_64-linux/4c7fa0bfc48a0d33d92521387dd84dbc52eb96ac0cda342f0776135a034f0a1f/8.10.3/bin"
-libdir     = "/home/vimerum/Documentos/PGC/praticas/jurandir/.stack-work/install/x86_64-linux/4c7fa0bfc48a0d33d92521387dd84dbc52eb96ac0cda342f0776135a034f0a1f/8.10.3/lib/x86_64-linux-ghc-8.10.3/jurandir-0.1.0.0-7VCc8QnijHGFjuclmizzAW-jurandir"
-dynlibdir  = "/home/vimerum/Documentos/PGC/praticas/jurandir/.stack-work/install/x86_64-linux/4c7fa0bfc48a0d33d92521387dd84dbc52eb96ac0cda342f0776135a034f0a1f/8.10.3/lib/x86_64-linux-ghc-8.10.3"
-datadir    = "/home/vimerum/Documentos/PGC/praticas/jurandir/.stack-work/install/x86_64-linux/4c7fa0bfc48a0d33d92521387dd84dbc52eb96ac0cda342f0776135a034f0a1f/8.10.3/share/x86_64-linux-ghc-8.10.3/jurandir-0.1.0.0"
-libexecdir = "/home/vimerum/Documentos/PGC/praticas/jurandir/.stack-work/install/x86_64-linux/4c7fa0bfc48a0d33d92521387dd84dbc52eb96ac0cda342f0776135a034f0a1f/8.10.3/libexec/x86_64-linux-ghc-8.10.3/jurandir-0.1.0.0"
-sysconfdir = "/home/vimerum/Documentos/PGC/praticas/jurandir/.stack-work/install/x86_64-linux/4c7fa0bfc48a0d33d92521387dd84dbc52eb96ac0cda342f0776135a034f0a1f/8.10.3/etc"
+bindir     = "/home/vimerum/Documentos/PGC/pratica-pgc/jurandir/.stack-work/install/x86_64-linux/4c7fa0bfc48a0d33d92521387dd84dbc52eb96ac0cda342f0776135a034f0a1f/8.10.3/bin"
+libdir     = "/home/vimerum/Documentos/PGC/pratica-pgc/jurandir/.stack-work/install/x86_64-linux/4c7fa0bfc48a0d33d92521387dd84dbc52eb96ac0cda342f0776135a034f0a1f/8.10.3/lib/x86_64-linux-ghc-8.10.3/jurandir-0.1.0.0-7VCc8QnijHGFjuclmizzAW-jurandir"
+dynlibdir  = "/home/vimerum/Documentos/PGC/pratica-pgc/jurandir/.stack-work/install/x86_64-linux/4c7fa0bfc48a0d33d92521387dd84dbc52eb96ac0cda342f0776135a034f0a1f/8.10.3/lib/x86_64-linux-ghc-8.10.3"
+datadir    = "/home/vimerum/Documentos/PGC/pratica-pgc/jurandir/.stack-work/install/x86_64-linux/4c7fa0bfc48a0d33d92521387dd84dbc52eb96ac0cda342f0776135a034f0a1f/8.10.3/share/x86_64-linux-ghc-8.10.3/jurandir-0.1.0.0"
+libexecdir = "/home/vimerum/Documentos/PGC/pratica-pgc/jurandir/.stack-work/install/x86_64-linux/4c7fa0bfc48a0d33d92521387dd84dbc52eb96ac0cda342f0776135a034f0a1f/8.10.3/libexec/x86_64-linux-ghc-8.10.3/jurandir-0.1.0.0"
+sysconfdir = "/home/vimerum/Documentos/PGC/pratica-pgc/jurandir/.stack-work/install/x86_64-linux/4c7fa0bfc48a0d33d92521387dd84dbc52eb96ac0cda342f0776135a034f0a1f/8.10.3/etc"
 
 getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir, getSysconfDir :: IO FilePath
 getBinDir = catchIO (getEnv "jurandir_bindir") (\_ -> return bindir)
