@@ -8,24 +8,17 @@ linspace begin end size = [begin,second..end]
         second = begin + step
         step   = (end - begin) / (size - 1)
 
+noModKernel :: [[Double]]
+noModKernel = [[1]]
+
+noModPixel :: (Double, Double, Double) -> (Double, Double, Double)
+noModPixel pixel = pixel
+
 scale :: [[Double]] -> Double
 scale kernel = sum [sum x | x <- kernel]
 
 tupleFromPixel :: PixelRGB8 -> (Double, Double, Double)
 tupleFromPixel p@(PixelRGB8 r g b) = (fromIntegral r, fromIntegral g, fromIntegral b)
-
-testPixel :: (Double, Double, Double)
-testPixel = (-236, 276, 20)
-
-wrongPixelFromTuple2 :: (Double, Double, Double) -> PixelRGB8
-wrongPixelFromTuple2 (r, g, b) = PixelRGB8 (floor r) (floor g) (floor b)
-
-wrongPixelFromTuple :: (Double, Double, Double) -> PixelRGB8
-wrongPixelFromTuple (r, g, b) = PixelRGB8 r' g' b'
-    where
-        r' = max 0 (min 255 (floor r))
-        g' = max 0 (min 255 (floor g))
-        b' = max 0 (min 255 (floor b))
 
 pixelFromTuple :: (Double, Double, Double) -> PixelRGB8
 pixelFromTuple p = PixelRGB8 (floor r) (floor g) (floor b)
