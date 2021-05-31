@@ -1,5 +1,4 @@
 module Main where
-
 -- Reference: https://jaspervdj.be/posts/2014-11-27-comonads-image-processing.html
 
 {-# LANGUAGE BangPattern #-}
@@ -7,32 +6,49 @@ import qualified Codec.Picture                as Juicy
 import qualified Codec.Picture.Types          as M
 import           Control.Applicative          ((<$>))
 import           Control.Monad
+import           Control.Monad.Primitive      (PrimState, PrimMonad, primToIO)
 import           Data.List                    (sort)
 import           Data.Maybe                   (fromMaybe, maybeToList)
 import qualified Data.Vector                  as V
 import qualified Data.Vector.Generic          as VG
-import           Data.Vector.Storable.Mutable (STVector)
+import qualified Data.Vector.Mutable          as VM
+import qualified Data.Vector.Storable.Mutable as VSM
 import           Data.Word                    (Word8)
 
-boxImage :: Juicy.Image Juicy.PixelRGB8 -> M.MutableImage Int Juicy.PixelRGB8
-boxImage image = do join (M.thawImage image)
+data BoxedImage a = BoxedImage
+    { biWidth  :: !Int
+    , biHeight :: !Int
+    , biData   :: !(VSM.STVector Int a)
+    }
 
-unboxImage :: M.MutableImage Int Juicy.PixelRGB8 -> Juicy.Image Juicy.PixelRGB8
-unboxImage = extract M.unsafeFreezeImage
+instance Functor BoxedImage where
+    fmap f (BoxedImage w h d) = BoxedImage w h (fmap f d)
 
-readImage :: FilePath -> IO (M.MutableImage Int Juicy.PixelRGB8)
+boxImage :: Juicy.Image Juicy.PixelRGB8 -> BoxedImage Juicy.PixelRGB8
+boxImage image = BoxedImage
+    { biWidth  = w
+    , biHeight = h
+    , biData   = d
+    }
+        where
+            (MutableImage w h d) = M.thawImage image
+
+unboxImage :: BoxedImage Juicy.PixelRGB8 -> Juicy.Image Juicy.PixelRGB8
+unboxImage (BoxedImage w h d) = M.generateImage (\x y -> VSM.read d (x + y * w)) w h
+
+readImage :: FilePath -> IO (BoxedImage Juicy.PixelRGB8)
 readImage filePath = do 
     errorImage <- Juicy.readImage filePath
     case errorImage of
       Right (Juicy.ImageRGB8 img) -> return (boxImage img)
-      Right _                     -> error "readImage: unsopported format"
-      Left err                    -> error $ "readImage:could not load image: " ++ err
+      Right _                     -> error "readImage: unsupported format"
+      Left err                    -> error $ "readImage: could not load image: " ++ err
 
-writePng :: FilePath -> M.MutableImage Int Juicy.PixelRGB8 -> IO ()
-writePng filePath = Juicy.writePng filePath . unboxImage
+--writeImage :: FilePath -> BoxedImage Juicy.PixelRGB8 -> IO ()
+--writeImage filePath = Juicy.writePng filePath . M.freezeImage . unboxImage
 
 data FocusedImage a = FocusedImage 
-    { piBoxedImage :: !(M.MutableImage Int a)
+    { piBoxedImage :: !(BoxedImage a)
     , piX          :: !Int
     , piY          :: !Int
     }
@@ -40,13 +56,13 @@ data FocusedImage a = FocusedImage
 instance Functor FocusedImage where
     fmap f (FocusedImage bi x y) = FocusedImage (fmap f bi) x y
 
-focus :: M.MutableImage Int a -> FocusedImage a
+focus :: BoxedImage a -> FocusedImage a
 focus bi
-    | M.mutableImageWidth bi > 0 && M.mutableImageHeight bi > 0 = FocusedImage bi 0 0
+    | biWidth bi > 0 && biHeight bi > 0 = FocusedImage bi 0 0
     | otherwise                         =
         error "Cannot focus on empty images"
 
-unfocus :: FocusedImage a -> M.MutableImage Int a
+unfocus :: FocusedImage a -> BoxedImage a
 unfocus (FocusedImage bi _ _) = bi
 
 class Functor w => Comonad w where
@@ -54,13 +70,12 @@ class Functor w => Comonad w where
     extend :: (w a -> b) -> w a -> w b
 
 instance Comonad FocusedImage where
-    extract (FocusedImage bi x y) = do join (M.readPixel bi x y)
+    extract (FocusedImage (BoxedImage w _ d) x y) = VSM.read d (x + y * w)
 
-    extend f (FocusedImage bi@(M.MutableImage w h _) x y) = FocusedImage
-        (M.MutableImage w h $ V.generate (w * h) $ \i ->
-            let (y', x')  = i `divMod` w
-             in f (FocusedImage bi x' y'))
-        x y
+    extend f (FocusedImage bi@(BoxedImage w h _) x y) = FocusedImage newBi x y
+        where
+            newBi = M.mutableImageData (M.thawImage img)
+            img = M.generateImage (\x' y' -> f (FocusedImage bi x' y') w h
 
 neighbour :: Int -> Int -> FocusedImage a -> Maybe (FocusedImage a)
 neighbour dx dy (FocusedImage bi x y) 
@@ -70,8 +85,8 @@ neighbour dx dy (FocusedImage bi x y)
       x'          = x + dx
       y'          = y + dy
       outOfBounds =
-          x' < 0 || x' >= M.mutableImageWidth bi ||
-          y' < 0 || y' >= M.mutableImageHeight bi
+          x' < 0 || x' >= biWidth bi ||
+          y' < 0 || y' >= biHeight bi
 
 reduceNoise :: FocusedImage Juicy.PixelRGB8 -> Juicy.PixelRGB8
 reduceNoise pixel = median [ extract p | x <- [-2, -1 .. 2], y <- [-2, -1 .. 2], p <- maybeToList (neighbour x y pixel)]
@@ -87,8 +102,9 @@ median xs
 
 main :: IO()
 main = do
+    putStrLn "Hello"
     image <- readImage filePath
     writePng filePath' $ unfocus $ extend reduceNoise $ focus image
-  where
-      filePath  = "../res/baboon.png"
-      filePath' = "../res/baboon-teste.png"
+    where
+        filePath  = "../res/baboon.png"
+        filePath' = "../res/baboon-teste.png"
